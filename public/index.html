@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#090b0a">
+    <meta name="description" content="Cinemix — catálogo de filmes, séries e salas virtuais para curtir em grupo.">
+    <title>Cinemix — filmes e salas virtuais</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/forms.css">
+    <link rel="stylesheet" href="/player.css">
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Cinemix início"><span>CINE</span>MIX</a>
+      <div id="header-actions" class="header-actions hidden"></div>
+    </header>
+    <main>
+      <section id="auth-view" class="auth-layout">
+        <div class="auth-copy">
+          <p class="eyebrow">SUA PRÓXIMA SESSÃO COMEÇA AQUI</p>
+          <h1>Filmes são melhores <span>juntos.</span></h1>
+          <p>Explore o catálogo, descubra sua próxima história e encontre sua sala.</p>
+          <div class="feature-points"><span>Catálogo TMDb</span><span>Salas com chat</span></div>
+        </div>
+        <div class="auth-card">
+          <div class="auth-brand brand"><span>CINE</span>MIX</div>
+          <h2>Bem-vindo ao Cinemix</h2>
+          <p id="auth-subtitle" class="muted">Entre na sua conta para continuar.</p>
+          <form id="auth-form">
+            <label for="username">Nome de usuário</label>
+            <input id="username" name="username" autocomplete="username" minlength="3" maxlength="24" required>
+            <label for="password">Senha</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" maxlength="72" required>
+            <p id="auth-error" class="form-error" role="alert"></p>
+            <button id="auth-submit" class="button button-primary full-width" type="submit">Entrar</button>
+          </form>
+          <button id="auth-switch" class="text-button" type="button">Ainda não tem conta? <strong>Criar conta</strong></button>
+        </div>
+      </section>
+
+      <section id="app-view" class="hidden">
+        <div class="project-watermark" aria-hidden="true">CINEMIX · PROJETO DE ALLAN</div>
+        <section id="home-view">
+          <div class="welcome-row">
+            <div>
+              <a class="discord-entry" href="https://discord.gg/7j3H95g3Ra" target="_blank" rel="noopener noreferrer">Acesse o servidor do Discord ↗</a>
+              <p class="eyebrow">BEM-VINDO DE VOLTA</p><h1>O que vamos assistir?</h1>
+            </div>
+            <label class="search-box"><span aria-hidden="true">⌕</span><input id="search-input" type="search" placeholder="Buscar filmes ou séries..." maxlength="100" aria-label="Buscar no catálogo"></label>
+          </div>
+          <nav class="tabs" aria-label="Seções principais">
+            <button class="tab active" data-view="movies">Filmes</button>
+            <button class="tab" data-view="series">Séries</button>
+            <button class="tab" data-view="calendar">Calendário</button>
+            <button class="tab" data-view="rooms">Salas de Cinema</button>
+            <button id="admin-tab" class="tab hidden" data-view="admin">Administração</button>
+          </nav>
+          <div id="catalog-controls" class="catalog-controls">
+            <div id="catalog-categories" class="category-list"></div>
+            <span id="catalog-page" class="muted small"></span>
+          </div>
+          <div id="catalog-grid" class="catalog-grid"></div>
+          <div id="catalog-message" class="empty-state hidden"></div>
+          <div class="pagination"><button id="load-more" class="button button-secondary hidden">Carregar mais</button></div>
+          <section id="calendar-panel" class="hidden">
+            <div class="room-toolbar"><div><h2>Calendário de episódios</h2><p class="muted">Episódios no ar e próximos lançamentos, conforme o TMDb.</p></div></div>
+            <div id="calendar-grid" class="rooms-grid"></div>
+          </section>
+          <div id="rooms-panel" class="hidden">
+            <div class="room-toolbar">
+              <div><h2>Salas de cinema</h2><p class="muted">Horários do servidor · capacidade de 42 participantes por sala</p></div>
+              <div class="segmented">
+                <button class="segment active" data-room-type="public">Públicas</button>
+                <button class="segment" data-room-type="private">Privadas</button>
+              </div>
+            </div>
+            <div id="rooms-grid" class="rooms-grid"></div>
+            <p id="room-note" class="muted small"></p>
+          </div>
+          <section id="admin-panel" class="hidden">
+            <div class="room-toolbar"><div><h2>Administração</h2><p class="muted">Ações protegidas no servidor. Senhas nunca são exibidas.</p></div></div>
+            <div id="admin-stats" class="stats-row"></div>
+            <label class="search-box admin-search"><span aria-hidden="true">⌕</span><input id="admin-search" type="search" placeholder="Pesquisar contas"></label>
+            <div id="accounts-list" class="admin-list"></div>
+            <details class="audit-box"><summary>Histórico de atividade</summary><div id="audit-list"></div></details>
+          </section>
+        </section>
+        <section id="watch-view" class="hidden">
+          <button id="back-to-home" class="text-button back-button">← Voltar às salas</button>
+          <div class="watch-heading"><div><p class="eyebrow" id="watch-genre"></p><h1 id="watch-title"></h1><p id="watch-meta" class="muted"></p></div><button id="leave-room" class="button button-secondary">Sair da sala</button></div>
+          <div class="watch-layout">
+            <section class="player-placeholder">
+              <iframe id="room-player-frame" class="room-player-frame" title="Player da sala" allow="autoplay; fullscreen *; picture-in-picture; encrypted-media" allowfullscreen></iframe>
+              <p id="room-player-status" class="muted small" role="status"></p>
+              <span class="status-pill">Sala <span id="watch-status"></span></span>
+              <div class="room-player-actions">
+                <button id="fullscreen-button" class="button button-secondary" type="button">Tela cheia</button>
+              </div>
+            </section>
+            <aside class="chat-panel">
+              <div class="chat-header"><div><h2>Chat da sala</h2><p class="muted small">Mensagens em tempo real</p></div><span class="online-indicator">Ao vivo</span></div>
+              <div id="chat-messages" class="chat-messages" aria-live="polite"></div>
+              <form id="chat-form" class="chat-form"><input id="chat-input" maxlength="500" placeholder="Escreva uma mensagem..." aria-label="Mensagem" required><button class="button button-primary" aria-label="Enviar mensagem">Enviar</button></form>
+              <p id="chat-error" class="form-error"></p>
+            </aside>
+          </div>
+        </section>
+        <footer class="app-footer">CineMix · versão 1.2.1 · Em atualização contínua</footer>
+      </section>
+    </main>
+    <dialog id="detail-dialog" class="modal">
+      <button class="modal-close" data-close="detail-dialog" aria-label="Fechar">×</button>
+      <div id="detail-content"></div>
+    </dialog>
+    <dialog id="room-dialog" class="modal compact-modal">
+      <button class="modal-close" data-close="room-dialog" aria-label="Fechar">×</button>
+      <div id="room-dialog-content"></div>
+    </dialog>
+    <dialog id="delete-room-dialog" class="modal compact-modal delete-room-modal">
+      <h2>Apagar sala privada?</h2>
+      <p class="muted">A sala será excluída se ninguém entrar durante a contagem.</p>
+      <p id="delete-room-countdown" class="delete-room-countdown" aria-live="assertive"></p>
+      <button id="cancel-delete-room" class="button button-secondary" type="button">Cancelar</button>
+    </dialog>
+    <dialog id="player-dialog" class="modal player-modal">
+      <button class="modal-close" data-close="player-dialog" aria-label="Fechar">×</button>
+      <div class="player-heading"><p class="eyebrow">PLAYER MULTI HD</p><h2 id="player-title"></h2></div>
+      <div id="series-controls" class="series-controls hidden">
+        <label for="player-season">Temporada</label><select id="player-season" class="hidden"></select>
+        <input id="player-season-manual" class="hidden" type="number" min="0" step="1" value="1" aria-label="Temporada" required>
+        <label for="player-episode">Episódio</label><select id="player-episode" class="hidden"></select>
+        <input id="player-episode-manual" class="hidden" type="number" min="1" step="1" value="1" aria-label="Episódio" required>
+      </div>
+      <p id="player-status" class="muted small" role="status"></p>
+      <div class="player-actions">
+        <button id="switch-player-button" class="button button-secondary hidden" type="button">Trocar para MyEmbed</button>
+        <button id="detail-fullscreen-button" class="button button-secondary" type="button">Tela cheia</button>
+      </div>
+      <div id="PlayerContainer" class="embedded-player-wrap">
+        <iframe id="detail-player-frame" title="Player de vídeo" allow="autoplay; fullscreen *; picture-in-picture; encrypted-media" allowfullscreen></iframe>
+      </div>
+    </dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/app.js" defer></script>
+  </body>
+</html>

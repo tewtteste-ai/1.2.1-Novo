@@ -1,0 +1,27 @@
+{
+  "name": "cinemix",
+  "version": "1.2.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "migrate": "node scripts/migrate.js",
+    "test": "node --test",
+    "build": "node --check server.js && node --check scripts/migrate.js && node --check public/app.js && node --check lib/validation.js && node --check lib/room-schedule.js && node --check lib/room-session.js && node --check lib/schedule-time.js && node --check lib/catalog.js && node --check lib/pipoca-cine.js && node --check lib/myembed.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-pg-simple": "^10.0.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "express-session": "^1.18.1",
+    "helmet": "^8.0.0",
+    "pg": "^8.13.1",
+    "socket.io": "^4.8.1"
+  }
+}
